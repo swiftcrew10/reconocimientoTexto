@@ -1,6 +1,8 @@
 import Vision
 import SwiftUI
+ 
 
+//Clase que maneja el reconocimiento de texto, recibe la lista de keywords, una Image en formato CGImage y regresa un string con espacios.
 
 class TextRecognizer {
     
