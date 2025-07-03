@@ -7,7 +7,6 @@
 
 import SwiftUI
 import PhotosUI
-import Vision
 
 struct ContentView: View {
     
@@ -17,10 +16,6 @@ struct ContentView: View {
     @State private var recognizedText: String = ""
     
     private let recognizer = TextRecognizer()
-    
-    
-    
-    
     
     var body: some View {
         VStack {
@@ -72,9 +67,10 @@ struct ContentView: View {
                         selectedImage = img
                         
                         // 3) run Vision on it
-                        recognizer.recognize(cg) { text in
+                        recognizer.recognize(cg,keywords: ["total", "fecha", "precio"]) { text in
                             DispatchQueue.main.async {
-                                recognizedText = text
+                                recognizedText = text.joined(separator: "\n")
+
                             }
                         }
                     }
