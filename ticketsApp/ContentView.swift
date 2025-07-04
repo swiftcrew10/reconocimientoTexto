@@ -8,7 +8,9 @@
 import SwiftUI
 import PhotosUI
 
+@available(iOS 26.0, *)
 struct ContentView: View {
+    
     
     @State private var selectedItem: PhotosPickerItem?
     @State private var selectedImage: UIImage?
@@ -25,8 +27,9 @@ struct ContentView: View {
                 Image(uiImage: img)
                     .resizable()
                     .scaledToFit()
-                    .cornerRadius(10)
-                    .frame(height: 200)
+                    .frame(width: 300, height: 300)
+                    
+                
                 
                 ScrollView {
                     Text(recognizedText)
@@ -48,13 +51,13 @@ struct ContentView: View {
                 matching: .images
             ){
                 Text("Select photo")
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.blue)
                     .frame(width: 200, height: 50)
-                    .background(Color.blue)
-                    .cornerRadius(20)
-                    .padding(10)
+                    
+                    
                 
             }
+            .glassEffect(.regular)
             .onChange(of: selectedItem) { item in
                 guard let item = item else { return }
                 Task {
@@ -67,15 +70,18 @@ struct ContentView: View {
                         selectedImage = img
                         
                         // 3) run Vision on it
-                        recognizer.recognize(cg,keywords: ["total", "fecha", "precio"]) { text in
+                        recognizer.recognize(cg,keywords: ["total", "Fecha:", "precio"]) { text in
                             DispatchQueue.main.async {
-                                recognizedText = text.joined(separator: "\n")
+                                recognizedText = text.map { "\($0.key): \($0.value)" }.joined(separator: "\n")
+
 
                             }
                         }
                     }
                 }
             }
+            
+            
         }
             
             .padding()
@@ -86,5 +92,10 @@ struct ContentView: View {
 
 
 #Preview {
-    ContentView()
+    if #available(iOS 26.0,*){
+        ContentView()
+    } else{
+        
+    }
+    
 }
